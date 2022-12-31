@@ -1,8 +1,6 @@
 venv/
 
 # So build folder is revision-controlled
-build/*
-!build/.gitignore
 tests/build/*
 !tests/build/.gitignore 
 

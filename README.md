@@ -28,3 +28,8 @@ You can clean all build artifacts with:
 ```
 make clean
 ```
+
+## Publishing Site
+Simply running `make` will generate the site in the `build` directory.
+
+For simplicity's sake, this must be manually run with changes until CI is adapted.
