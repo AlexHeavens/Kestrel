@@ -9,12 +9,13 @@ project_dir="${test_dir}/.."
 src_dir="${project_dir}/src"
 test_build_dir="${test_dir}/build"
 
-rm --recursive --force "${test_build_dir}/*" # clean up prior tests
+rm --recursive --force "${test_build_dir}"/* # clean up prior tests
 
 python "${src_dir}/obscura.py" --build-dir "${test_build_dir}"
 
-if [[ -f "${test_build_dir}/obscura.html" ]]; then
-	echo 'obscura.html created, smoke test passed'
+if [[ -f "${test_build_dir}/index.html" ]]; then
+	echo 'index.html created, smoke test passed'
 else
-	echo 'obscura.html not created, smoke test failed'
+	echo 'index.html not created, smoke test failed'
+	exit 1
 fi
