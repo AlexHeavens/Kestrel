@@ -13,6 +13,11 @@ This tool generates an interactive map of the city, with each council ward color
 
 ## Setting Up For Development
 
+Install prerequisites:
+```
+brew install gdal
+```
+
 It is recommended to use a virtual environment with Python 3.11.
 
 ```
