@@ -1,4 +1,6 @@
 venv/
+.vscode/
+.DS_Store
 
 # So build folder is revision-controlled
 tests/build/*
