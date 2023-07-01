@@ -11,7 +11,7 @@ test_build_dir="${test_dir}/build"
 
 rm --recursive --force "${test_build_dir}"/* # clean up prior tests
 
-python "${src_dir}/obscura.py" --build-dir "${test_build_dir}"
+python "${src_dir}/kestrel.py" --build-dir "${test_build_dir}"
 
 if [[ -f "${test_build_dir}/index.html" ]]; then
 	echo 'index.html created, smoke test passed'
