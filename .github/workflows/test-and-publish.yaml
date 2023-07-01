@@ -1,0 +1,59 @@
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: make install_dependencies
+
+      - name: Static Checks
+        run: pre-commit run --all-files
+
+      - name: Run Tests
+        run: make test
+
+  build-image-and-publish:
+    needs: test
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::815823335496:role/ContinuousIntegration.Kestrel
+          aws-region: eu-west-2
+        
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build
+        run: make build_docker
+
+      - name: Retag and push image to Amazon ECR
+        if: github.ref == 'refs/heads/main'
+        env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            ECR_REPOSITORY: kestrel
+            COMMIT_TAG: ${{ github.sha }}
+            BRANCH_TAG: main
+        run: |
+            docker tag kestrel:local $ECR_REGISTRY/$ECR_REPOSITORY:$COMMIT_TAG
+            docker tag kestrel:local $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH_TAG
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$COMMIT_TAG
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BRANCH_TAG
