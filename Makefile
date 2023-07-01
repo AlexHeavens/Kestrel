@@ -17,6 +17,7 @@ install_dependencies:
 	pip install --requirement requirements.txt
 
 test: install_dependencies
+	tests/smoke_test.bash
 
 clean:
 	rm --recursive --force build/* tests/build/*

@@ -9,7 +9,7 @@ project_dir="${test_dir}/.."
 src_dir="${project_dir}/src"
 test_build_dir="${test_dir}/build"
 
-rm --recursive --force "${test_build_dir}"/* # clean up prior tests
+rm -rf "${test_build_dir}"/* # clean up prior tests
 
 python "${src_dir}/kestrel.py" --build-dir "${test_build_dir}"
 

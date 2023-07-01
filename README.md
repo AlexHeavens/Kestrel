@@ -8,9 +8,8 @@ This tool generates an interactive map of the city, with each council ward color
 
 - `data`: Input data and a list of [sources](data/SOURCES.md).
 - `src`: Source code for processing and generating the final map.
-- `build`: Intermediate results and the final map.
-- `docker`: Packaging as a web server.
 - `tests`: Test scripts.
+- `docker`: Packaging as a web server.
 
 ## Setting Up For Development
 
@@ -21,6 +20,9 @@ You can build and run a local copy of the web server:
 ```
 python3.11 -m venv venv
 . ./venv/bin/activate
+
+pre-commit run --all-files &&
+make test &&
 
 make run_docker
 ```
