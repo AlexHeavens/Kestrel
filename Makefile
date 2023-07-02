@@ -1,13 +1,13 @@
 PROJECT_DIR := $(CURDIR)
 DOCKER_DIR := "$(PROJECT_DIR)/docker"
-TEST_WEB_SERVER_PORT := 8080
+HOST_WEB_SERVER_PORT := 8080
 
 build_docker: generate_interactive_page
 	docker build --tag kestrel:local "$(DOCKER_DIR)"
 
 run_docker: build_docker
 	docker run \
-		--publish $(TEST_WEB_SERVER_PORT):80 \
+		--publish $(HOST_WEB_SERVER_PORT):8080 \
 		kestrel:local
 
 generate_interactive_page: install_dependencies
