@@ -9,3 +9,7 @@ tests/build/*
 
 .DS_Store
 .vscode/
+.env
+.venv/
+.pytest_cache/
+__pycache__/
