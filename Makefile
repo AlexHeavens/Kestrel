@@ -16,8 +16,23 @@ generate_interactive_page: install_dependencies
 install_dependencies:
 	pip install --requirement requirements.txt
 
+install_dev_dependencies:
+	pip install --requirement requirements-dev.txt
+
+# The checks that .pre-commit-config.yaml used to run, plus actionlint and ShellCheck.
+lint: install_dev_dependencies
+	actionlint
+	shellcheck .githooks/pre-commit scripts/*.sh tests/*.bash
+	black --check .
+	isort --check .
+	flake8 .
+
 test: install_dependencies
 	tests/smoke_test.bash
+
+# Starts the real web server in the Docker image and fetches the page and the health endpoint.
+e2e_test: build_docker
+	tests/e2e_test.bash
 
 clean:
 	rm --recursive --force build/* tests/build/*
