@@ -13,7 +13,7 @@ trap 'docker rm --force "${container}" >/dev/null' EXIT
 port=$(docker port "${container}" 8080/tcp | head --lines=1 | sed 's/.*://')
 base_url="http://127.0.0.1:${port}"
 
-curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-connrefused \
+curl --fail --silent --show-error --retry 20 --retry-delay 1 --retry-all-errors \
 	--output /dev/null "${base_url}/health"
 
 health=$(curl --fail --silent --show-error "${base_url}/health")
@@ -23,7 +23,7 @@ if [[ "${health}" != "OK" ]]; then
 fi
 
 page=$(curl --fail --silent --show-error "${base_url}/")
-for expected in leaflet "Scottish National Party"; do
+for expected in leaflet "L.map(" "L.marker("; do
 	if ! grep --quiet --fixed-strings "${expected}" <<<"${page}"; then
 		echo "e2e test failed: the map page does not contain '${expected}'"
 		exit 1

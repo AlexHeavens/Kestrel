@@ -19,7 +19,7 @@ install_dependencies:
 install_dev_dependencies:
 	pip install --requirement requirements-dev.txt
 
-# The checks that .pre-commit-config.yaml used to run, plus actionlint and ShellCheck.
+# Static checks. Run the same command locally and in CI.
 lint: install_dev_dependencies
 	actionlint
 	shellcheck .githooks/pre-commit scripts/*.sh tests/*.bash
